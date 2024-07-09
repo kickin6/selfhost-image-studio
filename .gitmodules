@@ -1,9 +1,9 @@
 [submodule "selfhost-image"]
 	path = selfhost-image
-	url = https://github.com/kickin6/selfhost-image.git
+	url = git@github.com:kickin6/selfhost-image.git
 [submodule "Fooocus-API"]
 	path = Fooocus-API
-	url = https://github.com/kickin6/Fooocus-API.git
+	url = git@github.com:kickin6/Fooocus-API.git
 [submodule "selfhost-nginx"]
 	path = selfhost-nginx
-	url = https://github.com/kickin6/selfhost-nginx.git
+	url = git@github.com:kickin6/selfhost-nginx.git
