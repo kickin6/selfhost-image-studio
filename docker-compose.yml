@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  selfhost-image:
+    image: ghcr.io/kickin6/selfhost-image:latest
+    container_name: selfhost-image
+    ports:
+      - "5000:5000"
+    environment:
+      - OUTPUT_DIR=${IMAGE_OUTPUT_DIR:-./selfhost-image/outputs}
+    volumes:
+      - ${IMAGE_OUTPUT_DIR:-./outputs}:/app/outputs
+    networks:
+      - app-network
+
+  fooocus:
+    image: ghcr.io/kickin6/fooocus-api:latest
+    container_name: fooocus
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - NVIDIA_VISIBLE_DEVICES=all
+      - BASE_URL=${IMAGE_BASE_URL}
+    volumes:
+      - ./Fooocus-API/repositories/Fooocus/models:/app/repositories/Fooocus/models
+      - ${IMAGE_OUTPUT_DIR:-./outputs}:/app/outputs
+      - pip-cache:/root/.cache/pip
+    ports:
+      - "8888:8888"
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [compute, utility]
+    networks:
+      - app-network
+    depends_on:
+      - selfhost-image
+    entrypoint: ["python", "main.py", "--host", "0.0.0.0", "--port", "8888", "--base-url", "${IMAGE_BASE_URL}", "--log-level", "error"]
+
+  nginx:
+    image: ghcr.io/kickin6/selfhost-nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${IMAGE_OUTPUT_DIR:-./outputs}:/etc/nginx/html/files
+      - ./ssl:/etc/nginx/ssl
+    networks:
+      - app-network
+    depends_on:
+      - selfhost-image
+      - fooocus
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pip-cache:
+

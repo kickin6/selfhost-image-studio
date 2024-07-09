@@ -1,0 +1,46 @@
+# Node modules (if any)
+node_modules/
+outputs/*
+!outputs/.gitkeep
+
+.env
+
+# Dependency directories
+bower_components/
+
+# Build directories
+dist/
+build/
+
+# Temporary files and logs
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker-related files
+docker-compose.override.yml
+
+# Exclude SSL directory contents (ensure SSL files are committed)
+!ssl/
+ssl/*
+!ssl/.gitkeep
+
+# Ignore submodule directories to avoid unintentional changes
+Fooocus-API/
+selfhost-image/
+selfhost-nginx/
+
+# Ignore Pipenv files
+Pipfile.lock
+
