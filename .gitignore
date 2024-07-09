@@ -37,9 +37,9 @@ ssl/*
 !ssl/.gitkeep
 
 # Ignore submodule directories to avoid unintentional changes
-Fooocus-API/
-selfhost-image/
-selfhost-nginx/
+#Fooocus-API/
+#selfhost-image/
+#selfhost-nginx/
 
 # Ignore Pipenv files
 Pipfile.lock
